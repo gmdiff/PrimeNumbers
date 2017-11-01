@@ -67,11 +67,6 @@ public static class Numbers
 		return ret;
 	}
 
-
-
-
-
-
 	/// <summary>
 	/// Расширение для типа long.
 	/// Возвращает список всех простых делителей для указанного числа number.
@@ -128,8 +123,6 @@ public static class Numbers
 		return ret.OrderBy(s => s).ToList();
 	}
 
-
-
 	/// <summary>
 	/// Расширение для типа int
 	/// Проверка числа на простоту
@@ -152,5 +145,31 @@ public static class Numbers
 		return (number.ToDivisors().Count == 1);
 	}
 
+	
+	/// <summary>
+	/// Расширение для типа IEnumerable<long>
+	/// Возвращает число, равное произведению всех чисел, входящих в список list
+	/// </summary>
+	/// <param name="list">список перемножаемых чисел</param>
+	/// <returns></returns>
+	public static long Multiply(this IEnumerable<long> list)
+	{
+		long ret = 1;
+		foreach (var l in list) ret = ret * l;
+		return ret;
+	}
+
+	/// <summary>
+	/// Расширение для типа IEnumerable<int>
+	/// Возвращает число, равное произведению всех чисел, входящих в список list
+	/// </summary>
+	/// <param name="list">список перемножаемых чисел</param>
+	/// <returns></returns>
+	public static long Multiply(this IEnumerable<int> list)
+	{
+		long ret = 1;
+		foreach (var l in list) ret = ret * l;
+		return ret;
+	}
 
 }
