@@ -19,7 +19,7 @@ public static class Numbers
 	{
 		number = Math.Abs(number);
 		var templist = new List<bool> { false, false };
-		var ret = new List<int>();
+		var ret = new List<int> { 2 };
 
 		for (var i = 2; i <= number; i++)
 			templist.Add(i % 2 != 0);
@@ -31,7 +31,7 @@ public static class Numbers
 				for (var j = i * i; j <= number; j += i)
 					templist[j] = false;
 
-		for (var i = 2; i <= number; i++)
+		for (var i = 3; i <= number; i += 2)
 			if (templist[i])
 				ret.Add(i);
 
@@ -48,7 +48,7 @@ public static class Numbers
 	{
 		number = Math.Abs(number);
 		var templist = new List<bool> { false, false };
-		var ret = new List<long>();
+		var ret = new List<long> { 2 };
 
 		for (var i = 2; i <= number; i++)
 			templist.Add(i % 2 != 0);
@@ -60,7 +60,7 @@ public static class Numbers
 				for (var j = i * i; j <= number; j += i)
 					templist[j] = false;
 
-		for (var i = 2; i <= number; i++)
+		for (var i = 3; i <= number; i += 2)
 			if (templist[i])
 				ret.Add(i);
 
@@ -82,17 +82,17 @@ public static class Numbers
 		long minsqr = (long)(Math.Floor(Math.Sqrt(number)));
 
 		/// формируем список всех простых чисел, меньших чем minsqr - поиск возможных делителей будет производиться выборкой из этого списка
-		var ret = minsqr.PrimesLessThan().Where(d => number % d == 0).ToList();
+		var ret = minsqr.PrimesLessThan().AsParallel().Where(d => number % d == 0).ToList();
 
 		var chk = number / ret.Multiply();
 
 		while (chk > 1)
 		{
-			ret.AddRange(chk.PrimesLessThan().Where(d => chk % d == 0));
+			ret.AddRange(chk.PrimesLessThan().AsParallel().Where(d => chk % d == 0));
 			chk = number / ret.Multiply();
 		};
 
-		return ret.OrderBy(s => s).ToList();
+		return ret.AsParallel().AsOrdered().ToList();
 	}
 
 	/// <summary>
@@ -110,17 +110,17 @@ public static class Numbers
 		var minsqr = (int)(Math.Floor(Math.Sqrt(number)));
 
 		/// формируем список всех простых чисел, меньших чем minsqr - поиск возможных делителей будет производиться выборкой из этого списка
-		var ret = minsqr.PrimesLessThan().Where(d => number % d == 0).ToList();
+		var ret = minsqr.PrimesLessThan().AsParallel().Where(d => number % d == 0).ToList();
 
 		var chk = number / ret.Multiply();
 
 		while (chk > 1)
 		{
-			ret.AddRange(chk.PrimesLessThan().Where(d => chk % d == 0).Cast<int>());
+			ret.AddRange(chk.PrimesLessThan().AsParallel().Where(d => chk % d == 0).Cast<int>());
 			chk = number / ret.Multiply();
 		};
 
-		return ret.OrderBy(s => s).ToList();
+		return ret.AsParallel().AsOrdered().ToList();
 	}
 
 	/// <summary>
